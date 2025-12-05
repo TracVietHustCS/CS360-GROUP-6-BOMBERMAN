@@ -232,7 +232,7 @@ public class Sprite {
         final int S = scaleFactor;
 
         WritableImage output = new WritableImage(W * S, H * S);
-
+        //test
         PixelReader reader = input.getPixelReader();
         PixelWriter writer = output.getPixelWriter();
 
