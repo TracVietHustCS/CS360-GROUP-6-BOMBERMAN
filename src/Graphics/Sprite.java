@@ -230,7 +230,7 @@ public class Sprite {
         final int H = (int) input.getHeight();
         final int W = (int) input.getWidth();
         final int S = scaleFactor;
-
+    // some hchange mock change 123123123123
         WritableImage output = new WritableImage(W * S, H * S);
         //test
         PixelReader reader = input.getPixelReader();
