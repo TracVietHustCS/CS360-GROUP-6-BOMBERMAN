@@ -1,5 +1,7 @@
 package GameRunner;
 
+import Entity.Animal.Animal;
+import Entity.Entity;
 import Graphics.Sprite;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -7,7 +9,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RunBomberman extends Application {
+
+
+    public static final List<Entity> block = new ArrayList<>();     // Contains fixed entities
+    public static List<Animal> enemy = new ArrayList<>();
+    public static int[][] id_objects;
+    public static int[][] list_kill;
+    public static Animal player;
 
     @Override
     public void start(Stage stage) {
