@@ -17,7 +17,7 @@ public class Move {
      */
     public static void checkRun(Animal animal) {
         if (animal instanceof Bomber && animal.getCount() > 0) {
-            setDirection(animal.getDirection(), animal, 8 *speed);
+            setDirection(animal.getDirection(), animal, 8 * speed);
             animal.setCount(animal.getCount() - 1);
         }
     }
