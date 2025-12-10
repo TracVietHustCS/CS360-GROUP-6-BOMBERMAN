@@ -20,6 +20,8 @@ public class RunBomberman extends Application {
     public static int[][] id_objects;
     public static int[][] list_kill;
     public static Animal player;
+    public static boolean running ;
+    public static ImageView author_view;
 
     @Override
     public void start(Stage stage) {
