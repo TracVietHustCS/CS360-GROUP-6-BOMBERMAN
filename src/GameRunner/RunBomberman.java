@@ -1,6 +1,6 @@
 package GameRunner;
 
-import Entity.Animal.Animal;
+import Entity.animal.Animal;
 import Entity.Entity;
 import Graphics.Sprite;
 import javafx.application.Application;
