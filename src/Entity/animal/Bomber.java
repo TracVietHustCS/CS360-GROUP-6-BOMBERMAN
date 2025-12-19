@@ -129,4 +129,28 @@ public class Bomber extends Animal {
             }
         }
     }
+    /**
+     * Phương thức cập nhật trạng thái của Bomber trong mỗi khung hình (Frame) của trò chơi.
+     * <p>
+     * Đây là hàm ghi đè (Override) từ class cha, được vòng lặp game (Game Loop) gọi liên tục
+     * để duy trì các logic kiểm tra sống còn và xử lý hoạt hình khi nhân vật bị tiêu diệt.
+     * <p>
+     * Các bước xử lý chính bao gồm:
+     * <ul>
+     * <li>Kiểm tra va chạm với các vụ nổ bom trên bản đồ.</li>
+     * <li>Kiểm tra va chạm với tất cả quái vật hiện có bằng logic phạm vi pixel.</li>
+     * <li>Tăng bộ đếm khung hình cho chuỗi hoạt hình chết.</li>
+     * <li>Kích hoạt chuỗi hiệu ứng hình ảnh khi nhân vật hết mạng (life = false).</li>
+     * </ul>
+     */
+    @Override
+    public void update() {
+        /* Kiểm tra xem vị trí hiện tại của người chơi có trùng với ô đang có nổ bom không */
+        checkBombs();
+        checkEnemy3();
+        /* Duy trì bộ đếm khung hình liên tục để đảm bảo animation chết kích hoạt không độ trễ */
+        count_kill++;
+        if (!player.life)
+            killBomber(player);
+    }
 }
