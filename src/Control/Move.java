@@ -53,6 +53,26 @@ public class Move {
                 right_step(animal);
                 animal.setX(animal.getX() + isMove);
                 break;
+            case "up_left":
+                left_step(animal);
+                animal.setX(animal.getX() - (isMove / Math.sqrt(2)));
+                animal.setY(animal.getY() - (isMove / Math.sqrt(2)));
+                break;
+            case "up_right":
+                right_step(animal);
+                animal.setX(animal.getX() + (isMove / Math.sqrt(2)));
+                animal.setY(animal.getY() - (isMove / Math.sqrt(2)));
+                break;
+            case "down_left":
+                left_step(animal);
+                animal.setX(animal.getX() - (isMove / Math.sqrt(2)));
+                animal.setY(animal.getY() + (isMove / Math.sqrt(2)));
+                break;
+            case "down_right":
+                right_step(animal);
+                animal.setX(animal.getX() + (isMove / Math.sqrt(2)));
+                animal.setY(animal.getY() + (isMove / Math.sqrt(2)));
+                break;
         }
     }
 
@@ -414,6 +434,56 @@ public class Move {
                 animal.setImg(Sprite.kondoria_right_2.getFxImage());
                 animal.setSwap(1);
             }
+        }
+    }
+    /**
+        * Bắt đầu quá trình di chuyển sang chéo lên trên cho đối tượng {@code Doll}.
+         *
+         * Nếu bị chặn trên và chặn trái, hàm sẽ thiết lập hướng và số bước đếm cần di chuyển, sau đó
+        * gọi {@code checkRun} để bắt đầu thực thi bước đầu tiên.
+         *
+         */
+    public static void upLeft(Animal animal) {
+        if ((animal instanceof Ballom || animal instanceof Oneal
+                || animal instanceof Kondoria || animal instanceof Doll)
+                && Blocked.block_up(animal) && Blocked.block_left(animal))
+        {
+            animal.setDirection("up_left");
+            animal.setCount(8);
+            checkRun(animal);
+        }
+    }
+
+    public static void upRight(Animal animal) {
+        if ((animal instanceof Ballom || animal instanceof Oneal
+                || animal instanceof Kondoria || animal instanceof Doll)
+                && Blocked.block_up(animal) && Blocked.block_right(animal))
+        {
+            animal.setDirection("up_right");
+            animal.setCount(8);
+            checkRun(animal);
+        }
+    }
+
+    public static void downLeft(Animal animal) {
+        if ((animal instanceof Ballom || animal instanceof Oneal
+                || animal instanceof Kondoria || animal instanceof Doll)
+                && Blocked.block_down(animal) && Blocked.block_left(animal))
+        {
+            animal.setDirection("down_left");
+            animal.setCount(8);
+            checkRun(animal);
+        }
+    }
+
+    public static void downRight(Animal animal) {
+        if ((animal instanceof Ballom || animal instanceof Oneal
+                || animal instanceof Kondoria || animal instanceof Doll)
+                && Blocked.block_down(animal) && Blocked.block_right(animal))
+        {
+            animal.setDirection("down_right");
+            animal.setCount(8);
+            checkRun(animal);
         }
     }
 }
