@@ -34,9 +34,13 @@ public class Ballom extends Animal {
             playDeathAnimation();
             return;
         }
-
-        // 3. If aligned to tile → pick new random direction
-        if (x % 32 == 0 && y % 32 == 0 && count == 0) {
+        // 3. When it is between tiles, it keeps moving, does not make new decision
+        if (count > 0) { // count = how many small pixel-steps are left to finish the current tile movement
+            Move.checkRun(this);
+            return;
+        }
+        // 4. If aligned to tile → pick new random direction
+        if (x % 32 == 0 && y % 32 == 0) {
             int Direction = rand.nextInt(4);
             switch (Direction) {
                 case 0: Move.up(this);    break;
@@ -45,8 +49,7 @@ public class Ballom extends Animal {
                 case 3: Move.right(this); break;
             }
         }
-        // 4. Continue movement
-        Move.checkRun(this);
+
     }
 
     private void playDeathAnimation() {
@@ -55,6 +58,6 @@ public class Ballom extends Animal {
         if (deathFrame < 10) img = Sprite.mob_dead_1.getFxImage();
         else if (deathFrame < 20) img = Sprite.mob_dead_2.getFxImage();
         else if (deathFrame < 30) img = Sprite.mob_dead_3.getFxImage();
-        else enemy.remove(this); // finished → remove from game
+        else Animal.remove = true; // finished → remove from game
     }
 }

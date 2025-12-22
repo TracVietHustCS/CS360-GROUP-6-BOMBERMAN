@@ -41,18 +41,23 @@ public class Kondoria extends Animal {
 
     @Override
     public void update() {
-
+        // Kondoria death is decided in Bomb, not in Kondoria
         // 1. If dead → play death animation
         if (!life) {
             playDeathAnimation();
             return;
         }
+        // 2. When it is between tiles, it keeps moving, does not make new decision
+        if (count > 0) { // count = how many small pixel-steps are left to finish the current tile movement
+            Move.checkRun(this);
+            return;
+        }
 
-        // 2. Move only when perfectly aligned to tile
+        // 3. Move only when perfectly aligned to tile
         if (x % Sprite.SCALED_SIZE == 0 && y % Sprite.SCALED_SIZE == 0) {
 
             // Get map width from id_objects[][]
-            int mapWidthTiles = id_objects.length; // number of columns
+            int mapWidthTiles = id_objects[0].length; // number of columns
             int tileX = x / Sprite.SCALED_SIZE;
 
             // Reverse direction when hitting boundaries
