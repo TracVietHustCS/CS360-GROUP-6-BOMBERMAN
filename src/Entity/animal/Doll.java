@@ -14,20 +14,10 @@ public class Doll extends Animal{
     private static int swap_kill = 1;
     private static int count_kill = 0;
 
-    public Doll(int x_unit, int y_unit, Image img) {
-        super(x_unit, y_unit, img);
-    }
-
-    public Doll(int is_move, int swap, String direction, int count, int count_to_run) {
-        super(4, 1, "up", 0, 0);
-    }
-
-    public Doll(boolean life) {
-        super(life);
-    }
-
-    public Doll() {
-
+    public Doll(int x_unit, int y_unit) {
+        super(x_unit, y_unit, Sprite.doll_left_1.getFxImage());
+        this.direction = "left";
+        this.life = true;
     }
 
     private void killDoll(Animal animal) {
@@ -46,8 +36,26 @@ public class Doll extends Animal{
         }
     }
 
+    @Override
+    public void update() {
+        count_kill++;
+        // 1. If dead → play death animation
+        if (!life) {
+            playDeathAnimation();
+            return;
+        }
+        // 2. When it is between tiles, it keeps moving, does not make new decision
+        if (count > 0) { // count = how many small pixel-steps are left to finish the current tile movement
+            Move.checkRun(this);
+            return;
+        }
+        // 3. Decide new direction when aligned to tile
+        if (x % 32 == 0 && y % 32 == 0) {
+        moveDoll();
+    }
     private void moveDoll() {
-        if (this.x % 32 == 0 && this.y %32 == 0) {
+    // Only compute path when aligned to grid
+   if (this.x % 32 == 0 && this.y % 32 == 0) {
             Node initial_node = new Node(this.y / 32, this.x / 32);
             Node final_node = new Node(player.getY() / 32, player.getX() / 32);
 
@@ -77,15 +85,7 @@ public class Doll extends Animal{
                 int dx = nextX - this.x / 32;
                 int dy = nextY - this.y / 32;
 
-                if (dx == -1 && dy == -1)
-                    Move.upLeft(this);
-                else if (dx == 1 && dy == -1)
-                    Move.upRight(this);
-                else if (dx == -1 && dy == 1)
-                    Move.downLeft(this);
-                else if (dx == 1 && dy == 1)
-                    Move.downRight(this);
-                else if (dx == 0 && dy == -1)
+                if (dx == 0 && dy == -1)
                     Move.up(this);
                 else if (dx == 0 && dy == 1)
                     Move.down(this);
@@ -93,18 +93,3 @@ public class Doll extends Animal{
                     Move.left(this);
                 else if (dx == 1 && dy == 0)
                     Move.right(this);
-
-            }
-        }
-    }
-
-    @Override
-    public void update() {
-        count_kill++;
-        for (Animal animal:enemy) {
-            if (animal instanceof Doll && !animal.life)
-                killDoll(animal);
-        }
-        moveDoll();
-    }
-}
