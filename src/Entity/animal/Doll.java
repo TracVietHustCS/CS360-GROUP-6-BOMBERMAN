@@ -55,45 +55,41 @@ public class Doll extends Animal{
     }
     private void moveDoll() {
     // Only compute path when aligned to grid
-    if (x % 32 != 0 || y % 32 != 0) 
-        return;
+   if (this.x % 32 == 0 && this.y % 32 == 0) {
+            Node initial_node = new Node(this.y / 32, this.x / 32);
+            Node final_node = new Node(player.getY() / 32, player.getX() / 32);
 
-    Node start = new Node(y / 32, x / 32);
-    Node goal  = new Node(player.getY() / 32, player.getX() / 32);
+            int rows = height;
+            int cols = width;
 
-    AStar aStar = new AStar(height, width, start, goal);
+            AStar a_star = new AStar(rows, cols, initial_node, final_node);
 
-    int[][] blocks = new int[width * height][2];
-    int blockCount = 0;
+            int[][] blocks_in_array = new int[width * height][2];
+            int count_block = 0;
 
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            if (id_objects[j][i] != 0) {
-                blocks[blockCount][0] = i;
-                blocks[blockCount][1] = j;
-                blockCount++;
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    if (id_objects[j][i] != 0) {
+                        blocks_in_array[count_block][0] = i;
+                        blocks_in_array[count_block][1] = j;
+                        count_block++;
+                    }
+                }
             }
-        }
-    }
+            a_star.setBlocks(blocks_in_array, count_block);
+            List<Node> path = a_star.findPath();
+            if (path.size() != 0) {
+                int nextX = path.get(1).getCol();
+                int nextY = path.get(1).getRow();
 
-    aStar.setBlocks(blocks, blockCount);
+                int dx = nextX - this.x / 32;
+                int dy = nextY - this.y / 32;
 
-    List<Node> path = aStar.findPath();
-    if (path == null || path.size() < 2) return;
-
-    Node next = path.get(1);
-
-    int dx = next.getCol() - start.getCol();
-    int dy = next.getRow() - start.getRow();
-
-    // 4 direction movement
-    if (dx == 0 && dy == -1) {
-        Move.up(this);
-    } else if (dx == 0 && dy == 1) {
-        Move.down(this);
-    } else if (dx == -1 && dy == 0) {
-        Move.left(this);
-    } else if (dx == 1 && dy == 0) {
-        Move.right(this);
-    }
-}
+                if (dx == 0 && dy == -1)
+                    Move.up(this);
+                else if (dx == 0 && dy == 1)
+                    Move.down(this);
+                else if (dx == -1 && dy == 0)
+                    Move.left(this);
+                else if (dx == 1 && dy == 0)
+                    Move.right(this);
