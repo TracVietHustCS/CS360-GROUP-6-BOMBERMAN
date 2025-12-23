@@ -14,10 +14,9 @@ public class Ballom extends Animal {
     private static final Random rand = new Random();
     private int deathFrame = 0;
 
-    public Ballom(int x, int y) {
-        super(x, y, Sprite.ballom_left_1.getFxImage());
+    public Ballom(int x_unit, int y_unit) {
+        super(x_unit, y_unit, Sprite.ballom_left_1.getFxImage());
         this.direction = "left";   // default
-        this.speed = 1;            // Ballom speed
         this.life = true;
     }
 

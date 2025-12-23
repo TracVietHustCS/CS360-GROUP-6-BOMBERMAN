@@ -14,20 +14,10 @@ public class Doll extends Animal{
     private static int swap_kill = 1;
     private static int count_kill = 0;
 
-    public Doll(int x_unit, int y_unit, Image img) {
-        super(x_unit, y_unit, img);
-    }
-
-    public Doll(int is_move, int swap, String direction, int count, int count_to_run) {
-        super(4, 1, "up", 0, 0);
-    }
-
-    public Doll(boolean life) {
-        super(life);
-    }
-
-    public Doll() {
-
+    public Doll(int x_unit, int y_unit) {
+        super(x_unit, y_unit, Sprite.doll_left_1.getFxImage());
+        this.direction = "left";
+        this.life = true;
     }
 
     private void killDoll(Animal animal) {
@@ -46,65 +36,62 @@ public class Doll extends Animal{
         }
     }
 
+    @Override
+    public void update() {
+        count_kill++;
+        // 1. If dead → play death animation
+        if (!life) {
+            playDeathAnimation();
+            return;
+        }
+        // 2. When it is between tiles, it keeps moving, does not make new decision
+        if (count > 0) { // count = how many small pixel-steps are left to finish the current tile movement
+            Move.checkRun(this);
+            return;
+        }
+        // 3. Decide new direction when aligned to tile
+        if (x % 32 == 0 && y % 32 == 0) {
+        moveDoll();
+    }
     private void moveDoll() {
-        if (this.x % 32 == 0 && this.y %32 == 0) {
-            Node initial_node = new Node(this.y / 32, this.x / 32);
-            Node final_node = new Node(player.getY() / 32, player.getX() / 32);
+            Node start = new Node(y / 32, x / 32);
+            Node goal  = new Node(player.getY() / 32, player.getX() / 32);
 
-            int rows = height;
-            int cols = width;
+            AStar aStar = new AStar(height, width, start, goal);
 
-            AStar a_star = new AStar(rows, cols, initial_node, final_node);
-
-            int[][] blocks_in_array = new int[width * height][2];
-            int count_block = 0;
+            int[][] blocks = new int[width * height][2];
+            int blockCount = 0;
 
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     if (id_objects[j][i] != 0) {
-                        blocks_in_array[count_block][0] = i;
-                        blocks_in_array[count_block][1] = j;
-                        count_block++;
+                        blocks[blockCount][0] = i;
+                        blocks[blockCount][1] = j;
+                        blockCount++;
                     }
                 }
             }
-            a_star.setBlocks(blocks_in_array, count_block);
-            List<Node> path = a_star.findPath();
-            if (path.size() != 0) {
-                int nextX = path.get(1).getCol();
-                int nextY = path.get(1).getRow();
 
-                int dx = nextX - this.x / 32;
-                int dy = nextY - this.y / 32;
+            aStar.setBlocks(blocks, blockCount);
 
-                if (dx == -1 && dy == -1)
-                    Move.upLeft(this);
-                else if (dx == 1 && dy == -1)
-                    Move.upRight(this);
-                else if (dx == -1 && dy == 1)
-                    Move.downLeft(this);
-                else if (dx == 1 && dy == 1)
-                    Move.downRight(this);
-                else if (dx == 0 && dy == -1)
-                    Move.up(this);
-                else if (dx == 0 && dy == 1)
-                    Move.down(this);
-                else if (dx == -1 && dy == 0)
-                    Move.left(this);
-                else if (dx == 1 && dy == 0)
-                    Move.right(this);
+            List<Node> path = aStar.findPath();
+            if (path == null || path.size() < 2) return;
 
+            Node next = path.get(1);
+
+            int dx = next.getCol() - start.getCol();
+            int dy = next.getRow() - start.getRow();
+
+            // 4 direction movement
+            if (dx == 0 && dy == -1) {
+                Move.up(this);
+            } else if (dx == 0 && dy == 1) {
+                Move.down(this);
+            } else if (dx == -1 && dy == 0) {
+                Move.left(this);
+            } else if (dx == 1 && dy == 0) {
+                Move.right(this);
             }
         }
-    }
-
-    @Override
-    public void update() {
-        count_kill++;
-        for (Animal animal:enemy) {
-            if (animal instanceof Doll && !animal.life)
-                killDoll(animal);
+            }
         }
-        moveDoll();
-    }
-}
