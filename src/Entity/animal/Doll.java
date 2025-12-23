@@ -54,44 +54,46 @@ public class Doll extends Animal{
         moveDoll();
     }
     private void moveDoll() {
-            Node start = new Node(y / 32, x / 32);
-            Node goal  = new Node(player.getY() / 32, player.getX() / 32);
+    // Only compute path when aligned to grid
+    if (x % 32 != 0 || y % 32 != 0) 
+        return;
 
-            AStar aStar = new AStar(height, width, start, goal);
+    Node start = new Node(y / 32, x / 32);
+    Node goal  = new Node(player.getY() / 32, player.getX() / 32);
 
-            int[][] blocks = new int[width * height][2];
-            int blockCount = 0;
+    AStar aStar = new AStar(height, width, start, goal);
 
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    if (id_objects[j][i] != 0) {
-                        blocks[blockCount][0] = i;
-                        blocks[blockCount][1] = j;
-                        blockCount++;
-                    }
-                }
-            }
+    int[][] blocks = new int[width * height][2];
+    int blockCount = 0;
 
-            aStar.setBlocks(blocks, blockCount);
-
-            List<Node> path = aStar.findPath();
-            if (path == null || path.size() < 2) return;
-
-            Node next = path.get(1);
-
-            int dx = next.getCol() - start.getCol();
-            int dy = next.getRow() - start.getRow();
-
-            // 4 direction movement
-            if (dx == 0 && dy == -1) {
-                Move.up(this);
-            } else if (dx == 0 && dy == 1) {
-                Move.down(this);
-            } else if (dx == -1 && dy == 0) {
-                Move.left(this);
-            } else if (dx == 1 && dy == 0) {
-                Move.right(this);
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            if (id_objects[j][i] != 0) {
+                blocks[blockCount][0] = i;
+                blocks[blockCount][1] = j;
+                blockCount++;
             }
         }
-            }
-        }
+    }
+
+    aStar.setBlocks(blocks, blockCount);
+
+    List<Node> path = aStar.findPath();
+    if (path == null || path.size() < 2) return;
+
+    Node next = path.get(1);
+
+    int dx = next.getCol() - start.getCol();
+    int dy = next.getRow() - start.getRow();
+
+    // 4 direction movement
+    if (dx == 0 && dy == -1) {
+        Move.up(this);
+    } else if (dx == 0 && dy == 1) {
+        Move.down(this);
+    } else if (dx == -1 && dy == 0) {
+        Move.left(this);
+    } else if (dx == 1 && dy == 0) {
+        Move.right(this);
+    }
+}
