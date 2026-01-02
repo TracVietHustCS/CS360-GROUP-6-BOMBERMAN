@@ -44,7 +44,6 @@ public abstract class Entity {
         this.img = img;
     }
 
-    // render image
     public void render(GraphicsContext gc) {    // Using to render the frame of the game
         gc.drawImage(img, x, y);
     }
