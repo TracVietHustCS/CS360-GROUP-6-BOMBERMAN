@@ -35,8 +35,12 @@ public class Oneal extends Animal {
             playDeathAnimation();
             return;
         }
-
-        // 3. AI movement: Oneal chases player (simplified BFS: move closer tile-by-tile)
+        // 3. When it is between tiles, it keeps moving, does not make new decision
+        if (count > 0) { // count = how many small pixel-steps are left to finish the current tile movement
+            Move.checkRun(this);
+            return;
+        }
+        // 4. AI movement: Oneal chases player (simplified BFS: move closer tile-by-tile)
         if (x % 32 == 0 && y % 32 == 0 && count == 0) {
 
             int px = player.getX();
@@ -52,9 +56,6 @@ public class Oneal extends Animal {
                 if (py < y)  Move.up(this);
                 else Move.down(this);
             }
-
-            // move 32px at 8px steps
-            count = 4;
         }
     }
 
