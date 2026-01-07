@@ -45,8 +45,8 @@ public class Level3 {
         enemy.add(enemy2);
         enemy.add(enemy3);
 
-        for (Animal animal : enemy) {
-            animal.setLife(true);
+        for (Animal a : enemy) {
+            a.setLife(true);
         }
     }
 }
