@@ -187,18 +187,6 @@ public class Sprite {
     }
 
     // This function is used to set the game in transparent_color by set Argb color.
-    /**
-     * Chuyển mảng pixels của Sprite thành đối tượng Image của JavaFX.
-     *
-     * - Tạo một WritableImage kích thước SIZE x SIZE.
-     * - Duyệt qua từng pixel trong mảng pixels:
-     *     + Nếu màu là TRANSPARENT_COLOR, set pixel trong WritableImage thành trong suốt (ARGB = 0).
-     *     + Ngược lại, copy màu từ mảng pixels sang WritableImage.
-     * - Lấy Image từ WritableImage.
-     * - Resample (scale) image lên kích thước SCALED_SIZE bằng phương thức resample().
-     *
-     * @return Image đã được scale và sẵn sàng hiển thị.
-     */
     public Image getFxImage() {
         WritableImage wr = new WritableImage(SIZE, SIZE);
         PixelWriter pw = wr.getPixelWriter();
@@ -215,24 +203,14 @@ public class Sprite {
         return resample(input, SCALED_SIZE / ORIGINAL_SIZE);
     }
 
-    /**
-     * Phóng to (scale) image lên theo scaleFactor.
-     *
-     * - Duyệt qua từng pixel của image gốc.
-     * - Nhân mỗi pixel thành một block scaleFactor x scaleFactor trong image output.
-     * - Kết quả là image lớn hơn nhưng giữ nguyên màu và hình dạng.
-     *
-     * @param input Image gốc
-     * @param scaleFactor Hệ số scale
-     * @return Image đã được phóng to
-     */
+    // Resample to read the argb color
     private Image resample(Image input, int scaleFactor) {
         final int H = (int) input.getHeight();
         final int W = (int) input.getWidth();
         final int S = scaleFactor;
-    // some hchange mock change 123123123123
+
         WritableImage output = new WritableImage(W * S, H * S);
-        //test
+
         PixelReader reader = input.getPixelReader();
         PixelWriter writer = output.getPixelWriter();
 

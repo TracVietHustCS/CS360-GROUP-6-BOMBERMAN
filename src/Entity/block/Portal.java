@@ -1,10 +1,10 @@
 package Entity.block;
 
-import javafx.scene.image.Image;
 import Entity.Entity;
+import javafx.scene.image.Image;
 
 public class Portal extends Entity {
-    private boolean active = false; // cannot active until the player kills all
+    public static boolean is_portal = false;         // Variable used to display the portal when the player wins each level
 
     public Portal(int x, int y, Image img) {         // Create a contructor of the Portal class
         super(x, y, img);
@@ -14,10 +14,4 @@ public class Portal extends Entity {
     public void update() {
 
     }
-
-    public void activate() { active = true; }
-
-    public boolean isActive() { return active; }
-
-
 }

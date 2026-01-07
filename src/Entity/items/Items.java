@@ -1,7 +1,7 @@
 package Entity.items;
 
-import javafx.scene.image.Image;
 import Entity.Entity;
+import javafx.scene.image.Image;
 
 public abstract class Items extends Entity {
 

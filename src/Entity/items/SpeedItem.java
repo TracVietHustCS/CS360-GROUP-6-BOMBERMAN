@@ -1,10 +1,12 @@
 package Entity.items;
 
-import javafx.scene.image.Image;
 import Entity.Entity;
 import Graphics.Sprite;
+import javafx.scene.image.Image;
 
-import static GameRunner.RunBomberman.*;
+import static GameRunner.RunBomberman.block;
+import static GameRunner.RunBomberman.list_kill;
+import static GameRunner.RunBomberman.player;
 
 public class SpeedItem extends Items {
     public static int speed = 1;

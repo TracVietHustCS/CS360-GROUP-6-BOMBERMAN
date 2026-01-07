@@ -1,22 +1,24 @@
 package Entity.block;
 
-import Entity.Entity;
 import Control.Blocked;
-import Graphics.Sprite;
+import Entity.Entity;
 import Features.SoundManager;
+import Graphics.Sprite;
+import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.image.Image;
 
-import static GameRunner.RunBomberman.*;
-import static GameRunner.RunBomberman.player;
 import static Control.Menu.bomb_number;
+import static GameRunner.RunBomberman.block;
+import static GameRunner.RunBomberman.id_objects;
+import static GameRunner.RunBomberman.list_kill;
+import static GameRunner.RunBomberman.player;
 
 public class Bomb extends Entity {
-    private static long time_bomb;      // Exploding time bomb
+    private static long time_bomb;      // Exploding time bomb 
     private static long time_tmp;       // Time between 2 bombings
-    private static Entity bomb;
+    private static Entity bomb;         
     private static int swap_active = 1;     // Change the operational state of the bomb
     private static int swap_explosion = 1;  // Change bomb's explosive state
     private static final List<Entity> list_bomb_middle_width = new ArrayList();
@@ -47,8 +49,6 @@ public class Bomb extends Entity {
             time_tmp = time_bomb;
             int x = player.getX() / 32;
             int y = player.getY() / 32;
-            x = Math.round((float)x);
-            y = Math.round((float)y);
             bomb = new Bomb(x, y, Sprite.bomb.getFxImage());
             block.add(bomb);
             id_objects[player.getX() / 32][player.getY() / 32] = 4;
@@ -60,15 +60,15 @@ public class Bomb extends Entity {
         if (swap_active == 1) {
             bomb.setImg(Sprite.bomb.getFxImage());
             swap_active = 2;
-        }
+        } 
         else if (swap_active == 2) {
             bomb.setImg(Sprite.bomb_1.getFxImage());
             swap_active = 3;
-        }
+        } 
         else if (swap_active == 3) {
             bomb.setImg(Sprite.bomb_2.getFxImage());
             swap_active = 4;
-        }
+        } 
         else {
             bomb.setImg(Sprite.bomb_1.getFxImage());
             swap_active = 1;
@@ -128,6 +128,11 @@ public class Bomb extends Entity {
 
     }
 
+    /* Note: default bomb only display firer on tis center and 1 more blocl around it(edge), the middle is
+     alway depnd on the power, and power start from 1
+
+    */
+
     public static void createMiddle() {     // Adjust the bomb to explode at the center position
         Entity middle;
         int i;
@@ -155,7 +160,8 @@ public class Bomb extends Entity {
         block.addAll(list_bomb_middle_height);
     }
 
-    public static void explosionCenter() {      // Determine the explosion center of the bomb
+
+    public static void explosionCenter() {      // Determine the explosion center of the bomb 
         if (swap_explosion == 1) {
             bomb.setImg(Sprite.bomb_exploded.getFxImage());
             list_kill[bomb.getX() / 32][bomb.getY() / 32] = 4;
@@ -194,7 +200,7 @@ public class Bomb extends Entity {
             }
 
             swap_explosion = 2;
-        }
+        } 
         else if (swap_explosion == 2) {
             bomb.setImg(Sprite.bomb_exploded_1.getFxImage());
             if (Blocked.block_down_bomb(bomb, power_bomb_down)) {
@@ -223,7 +229,7 @@ public class Bomb extends Entity {
             }
 
             swap_explosion = 3;
-        }
+        } 
         else if (swap_explosion == 3) {
             bomb.setImg(Sprite.bomb_exploded_2.getFxImage());
             if (Blocked.block_down_bomb(bomb, power_bomb_down)) {
@@ -257,15 +263,15 @@ public class Bomb extends Entity {
     }
 
     private static void checkActive() {     // Check what stages the bomb has gone through before detonating
-        if (is_bomb == 1) {
+        if (is_bomb == 1) { // state of the bomb 1 is going to blow(bom sence)
             if (System.currentTimeMillis() - time_bomb < 2000L) {
                 if (System.currentTimeMillis() - time_tmp > 100L) {
                     activeBomb();
                     time_tmp += 100L;
                 }
-            }
+            } 
             else {
-                is_bomb = 2;
+                is_bomb = 2; // when the bom is blow(fire sence)
                 time_bomb = System.currentTimeMillis();
                 time_tmp = time_bomb;
             }
@@ -276,7 +282,7 @@ public class Bomb extends Entity {
     private static void checkExplosion() {      // Check the bomb's detonation time after the bomb is activated
         if (is_bomb == 2) {
             if (System.currentTimeMillis() - time_bomb < 1000L) {
-                if (System.currentTimeMillis() - time_tmp > 100L) {
+                if (System.currentTimeMillis() - time_tmp > 100L) { 
                     if (!is_edge) {
                         createEdge();
                         is_edge = true;
@@ -289,9 +295,9 @@ public class Bomb extends Entity {
 
                     new SoundManager("sound/bomb_explosion.wav", "explosion");
                     explosionCenter();
-                    time_tmp += 100L;
+                    time_tmp += 100L; // it mean you have to wait 100ms to call the explosionCenter() again
                 }
-            }
+            } 
             else {
                 is_bomb = 0;
                 id_objects[bomb.getX() / 32][bomb.getY() / 32] = 0;

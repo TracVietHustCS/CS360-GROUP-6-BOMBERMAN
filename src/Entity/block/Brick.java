@@ -1,49 +1,29 @@
 package Entity.block;
 
+import Entity.Entity;
 import Graphics.Sprite;
 import javafx.scene.image.Image;
-import Entity.Entity;
+
+import static GameRunner.RunBomberman.block;
+import static GameRunner.RunBomberman.list_kill;
 
 public class Brick extends Entity {
 
-    private boolean destroyed = false;
-    private int animationTimer = 10;
-    private int frame = 0; // how many frames passed since Brick break
     public Brick(int x, int y, Image img) {     // Create a contructor of the Brick class
         super(x, y, img);
     }
 
-    public void destroy()
-    {
-        destroyed = true; // brick begins breaking
-        frame = 0; // time reset, animation starts
-    }
-
-    public boolean isDestroyed() { return destroyed && frame >= animationTimer; }
-
-    private void checkHidden() {
+    private void checkHidden() {    //Check Brick's Visibility
         for (Entity entity : block) {
-            if (entity instanceof Brick brick) {
-
-                int tileX = brick.getX() / Sprite.SCALED_SIZE;
-                int tileY = brick.getY() / Sprite.SCALED_SIZE;
-
-                if (list_kill[tileY][tileX] == 4) { brick.destroy(); }
-            }
+            if (entity instanceof Brick)
+                if (list_kill[entity.getX() / 32][entity.getY() / 32] == 4) {    // At the element of the 2-dimensional listKill array with the value 4, Brick and Grass will appear
+                    entity.setImg(Sprite.grass.getFxImage());
+                }
         }
     }
 
     @Override
-    public void update()
-    {
-        if (destroyed) {
-            frame++;
-            img = Sprite.grass.getFxImage();
-        } //
+    public void update() {
         checkHidden();
     }
-
-
-
 }
-

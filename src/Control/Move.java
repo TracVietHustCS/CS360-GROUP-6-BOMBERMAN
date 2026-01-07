@@ -1,41 +1,30 @@
 package Control;
 
-import Entity.animal.*;
+import Entity.animal.Animal;
+import Entity.animal.Ballom;
+import Entity.animal.Bomber;
+import Entity.animal.Doll;
+import Entity.animal.Kondoria;
+import Entity.animal.Oneal;
 import Graphics.Sprite;
 
 import static Entity.items.SpeedItem.speed;
 
 public class Move {
-
-    /**
-     * Kiểm tra và xử lý việc thực hiện một bước di chuyển tiếp theo cho các đối tượng mob.
-     *
-     * Trong đoạn code này, logic chỉ áp dụng cho đối tượng {@code Bomber}.
-     * Nó sẽ thực hiện một bước di chuyển nhỏ nếu đối tượng còn số bước đếm cần hoàn thành.
-     *
-     * @param animal Đối tượng Animal (Bomber, Ballom, v.v.) cần kiểm tra trạng thái di chuyển.
-     */
-    public static void checkRun(Animal animal) {
+    public static void checkRun(Animal animal) {    //Check if all your mob move or not
         if (animal instanceof Bomber && animal.getCount() > 0) {
             setDirection(animal.getDirection(), animal, 8 * speed);
             animal.setCount(animal.getCount() - 1);
         }
         if ((animal instanceof Ballom || animal instanceof Oneal
-                || animal instanceof Kondoria)
+                || animal instanceof Doll || animal instanceof Kondoria)
                 && animal.getCount() > 0) {
             setDirection(animal.getDirection(), animal, 4);
             animal.setCount(animal.getCount() - 1);
         }
     }
 
-    /**
-     * Thực hiện việc di chuyển thực tế (cộng/trừ tọa độ) và cập nhật animation cho đối tượng
-     * dựa trên hướng đã được thiết lập trước đó. Hàm này được gọi bởi {@code checkRun}.
-     * * @param direction Hướng di chuyển (chuỗi: "up", "down", "left", "right").
-     * @param animal Đối tượng Animal (Bomber/Mob) cần di chuyển.
-     * @param isMove Số lượng pixel mà đối tượng di chuyển trong bước hiện tại (tốc độ).
-     */
-    private static void setDirection(String direction, Animal animal, int isMove) {
+    private static void setDirection(String direction, Animal animal, int isMove) {     //Show the direction of all mob
         switch (direction) {
             case "down":
                 down_step(animal);
@@ -56,40 +45,22 @@ public class Move {
         }
     }
 
-    /**
-     * Bắt đầu quá trình di chuyển xuống dưới cho đối tượng {@code Bomber}.
-     *
-     * Hàm chỉ cho phép nhận lệnh mới khi Bomber đang ở vị trí chính xác của một ô gạch (x%32=0 và y%32=0).
-     * Nếu không bị chặn (Blocked), hàm sẽ thiết lập hướng và số bước (count) cần di chuyển, sau đó
-     * gọi {@code checkRun} để bắt đầu thực thi bước đầu tiên.
-     *
-     * @param animal Đối tượng Animal (Bomber) cần di chuyển.
-     */
-    public static void down(Animal animal) {
+    public static void down(Animal animal) {        //Control all mob to go down
         if (animal.getY() % 32 == 0 && animal.getX() % 32 == 0) {
             if (animal instanceof Bomber && Blocked.block_down(animal)) {
                 animal.setDirection("down");
                 animal.setCount(4 / speed);
                 checkRun(animal);
             }
-        }
-        if ((animal instanceof Ballom || animal instanceof Oneal)
-                && Blocked.block_down(animal)) {
-            animal.setDirection("down");
-            animal.setCount(8);
-            checkRun(animal);
+            if ((animal instanceof Ballom || animal instanceof Oneal || animal instanceof Doll)
+                    && Blocked.block_down(animal)) {
+                animal.setDirection("down");
+                animal.setCount(8);
+                checkRun(animal);
+            }
         }
     }
 
-    /**
-     * Cập nhật hoạt hình (animation) cho Bomber khi di chuyển xuống.
-     *
-     * Hàm này dùng biến {@code swap} để luân phiên đổi ảnh giữa {@code control_down},
-     * {@code control_down_1} và {@code control_down_2}.
-     * Animation chỉ được cập nhật khi Bomber đang ở các vị trí pixel chia hết cho 8 (y % 8 == 0).
-     *
-     * @param animal Đối tượng Animal (Bomber) cần cập nhật animation.
-     */
     private static void down_step(Animal animal) {      //Show the animation of all mob that go down
         if (animal instanceof Bomber && animal.getY() % 8 == 0) {
             if (animal.getSwap() == 1) {
@@ -136,43 +107,40 @@ public class Move {
                 animal.setSwap(1);
             }
         }
+        if (animal instanceof Doll && animal.getY() % 8 == 0) {
+            if (animal.getSwap() == 1) {
+                animal.setImg(Sprite.doll_left_1.getFxImage());
+                animal.setSwap(2);
+            } else if (animal.getSwap() == 2) {
+                animal.setImg(Sprite.doll_left_2.getFxImage());
+                animal.setSwap(3);
+            } else if (animal.getSwap() == 3) {
+                animal.setImg(Sprite.doll_left_3.getFxImage());
+                animal.setSwap(4);
+            } else {
+                animal.setImg(Sprite.doll_left_2.getFxImage());
+                animal.setSwap(1);
+            }
+        }
     }
 
-    /**
-     * Bắt đầu quá trình di chuyển lên trên cho đối tượng {@code Bomber}.
-     *
-     * Hàm chỉ cho phép nhận lệnh mới khi Bomber đang ở vị trí chính xác của một ô gạch.
-     * Nếu không bị chặn, hàm sẽ thiết lập hướng và số bước đếm cần di chuyển, sau đó
-     * gọi {@code checkRun} để bắt đầu thực thi bước đầu tiên.
-     *
-     * @param animal Đối tượng Animal (Bomber) cần di chuyển.
-     */
-    public static void up(Animal animal) {
+    public static void up(Animal animal) {      //Control all mob to go up
         if (animal.getY() % 32 == 0 && animal.getX() % 32 == 0) {
             if (animal instanceof Bomber && Blocked.block_up(animal)) {
                 animal.setDirection("up");
                 animal.setCount(4 / speed);
                 checkRun(animal);
             }
-        }
-        if ((animal instanceof Ballom || animal instanceof Oneal )
-                && Blocked.block_up(animal)) {
-            animal.setDirection("up");
-            animal.setCount(8);
-            checkRun(animal);
+            if ((animal instanceof Ballom || animal instanceof Oneal || animal instanceof Doll)
+                    && Blocked.block_up(animal)) {
+                animal.setDirection("up");
+                animal.setCount(8);
+                checkRun(animal);
+            }
         }
     }
 
-    /**
-     * Cập nhật hoạt hình (animation) cho Bomber khi di chuyển lên.
-     *
-     * Hàm này dùng biến {@code swap} để luân phiên đổi ảnh giữa {@code control_up},
-     * {@code control_up_1} và {@code control_up_2}.
-     * Animation chỉ được cập nhật khi Bomber đang ở các vị trí pixel chia hết cho 8 (y % 8 == 0).
-     *
-     * @param animal Đối tượng Animal (Bomber) cần cập nhật animation.
-     */
-    private static void up_step(Animal animal) {
+    private static void up_step(Animal animal) {        //Show the animation of all mob that go down
         if (animal instanceof Bomber && animal.getY() % 8 == 0) {
             if (animal.getSwap() == 1) {
                 animal.setImg(Sprite.control_up.getFxImage());
@@ -218,43 +186,40 @@ public class Move {
                 animal.setSwap(1);
             }
         }
+        if (animal instanceof Doll && animal.getY() % 8 == 0) {
+            if (animal.getSwap() == 1) {
+                animal.setImg(Sprite.doll_right_1.getFxImage());
+                animal.setSwap(2);
+            } else if (animal.getSwap() == 2) {
+                animal.setImg(Sprite.doll_right_2.getFxImage());
+                animal.setSwap(3);
+            } else if (animal.getSwap() == 3) {
+                animal.setImg(Sprite.doll_right_3.getFxImage());
+                animal.setSwap(4);
+            } else {
+                animal.setImg(Sprite.doll_right_2.getFxImage());
+                animal.setSwap(1);
+            }
+        }
     }
 
-    /**
-     * Bắt đầu quá trình di chuyển sang trái cho đối tượng {@code Bomber}.
-     *
-     * Hàm chỉ cho phép nhận lệnh mới khi Bomber đang ở vị trí chính xác của một ô gạch.
-     * Nếu không bị chặn, hàm sẽ thiết lập hướng và số bước đếm cần di chuyển, sau đó
-     * gọi {@code checkRun} để bắt đầu thực thi bước đầu tiên.
-     *
-     * @param animal Đối tượng Animal (Bomber) cần di chuyển.
-     */
-    public static void left(Animal animal) {
+    public static void left(Animal animal) {        //Control all mob to go left
         if (animal.getX() % 32 == 0 && animal.getY() % 32 == 0) {
             if (animal instanceof Bomber && Blocked.block_left(animal)) {
                 animal.setDirection("left");
                 animal.setCount(4 / speed);
                 checkRun(animal);
             }
-        }
-        if ((animal instanceof Ballom || animal instanceof Oneal
-                || animal instanceof Kondoria)
-                && Blocked.block_left(animal)) {
-            animal.setDirection("left");
-            animal.setCount(8);
-            checkRun(animal);
+            if ((animal instanceof Ballom || animal instanceof Oneal
+                    || animal instanceof Doll || animal instanceof Kondoria)
+                    && Blocked.block_left(animal)) {
+                animal.setDirection("left");
+                animal.setCount(8);
+                checkRun(animal);
+            }
         }
     }
 
-    /**
-     * Cập nhật hoạt hình (animation) cho Bomber khi di chuyển sang trái.
-     *
-     * Hàm này dùng biến {@code swap} để luân phiên đổi ảnh giữa {@code control_left},
-     * {@code control_left_1} và {@code control_left_2}.
-     * Animation chỉ được cập nhật khi Bomber đang ở các vị trí pixel chia hết cho 8 (x % 8 == 0).
-     *
-     * @param animal Đối tượng Animal (Bomber) cần cập nhật animation.
-     */
     private static void left_step(Animal animal) {      //Show the animation of all mob that go left
         if (animal instanceof Bomber && animal.getX() % 8 == 0) {
             if (animal.getSwap() == 1) {
@@ -301,6 +266,21 @@ public class Move {
                 animal.setSwap(1);
             }
         }
+        if (animal instanceof Doll && animal.getY() % 8 == 0) {
+            if (animal.getSwap() == 1) {
+                animal.setImg(Sprite.doll_left_1.getFxImage());
+                animal.setSwap(2);
+            } else if (animal.getSwap() == 2) {
+                animal.setImg(Sprite.doll_left_2.getFxImage());
+                animal.setSwap(3);
+            } else if (animal.getSwap() == 3) {
+                animal.setImg(Sprite.doll_left_3.getFxImage());
+                animal.setSwap(4);
+            } else {
+                animal.setImg(Sprite.doll_left_2.getFxImage());
+                animal.setSwap(1);
+            }
+        }
         if (animal instanceof Kondoria && animal.getY() % 8 == 0) {
             if (animal.getSwap() == 1) {
                 animal.setImg(Sprite.kondoria_left_1.getFxImage());
@@ -316,18 +296,8 @@ public class Move {
                 animal.setSwap(1);
             }
         }
-
     }
 
-    /**
-     * Bắt đầu quá trình di chuyển sang phải cho đối tượng {@code Bomber}.
-     *
-     * Hàm chỉ cho phép nhận lệnh mới khi Bomber đang ở vị trí chính xác của một ô gạch.
-     * Nếu không bị chặn, hàm sẽ thiết lập hướng và số bước đếm cần di chuyển, sau đó
-     * gọi {@code checkRun} để bắt đầu thực thi bước đầu tiên.
-     *
-     * @param animal Đối tượng Animal (Bomber) cần di chuyển.
-     */
     public static void right(Animal animal) {       //Control all mob to go right
         if (animal.getX() % 32 == 0 && animal.getY() % 32 == 0) {
             if (animal instanceof Bomber && Blocked.block_right(animal)) {
@@ -335,26 +305,17 @@ public class Move {
                 animal.setCount(4 / speed);
                 checkRun(animal);
             }
-        }
-        if ((animal instanceof Ballom || animal instanceof Oneal
-                || animal instanceof Kondoria)
-                && Blocked.block_right(animal)) {
-            animal.setDirection("right");
-            animal.setCount(8);
-            checkRun(animal);
+            if ((animal instanceof Ballom || animal instanceof Oneal
+                    || animal instanceof Doll || animal instanceof Kondoria)
+                    && Blocked.block_right(animal)) {
+                animal.setDirection("right");
+                animal.setCount(8);
+                checkRun(animal);
+            }
         }
     }
 
-    /**
-     * Cập nhật hoạt hình (animation) cho Bomber khi di chuyển sang phải.
-     *
-     * Hàm này dùng biến {@code swap} để luân phiên đổi ảnh giữa {@code control_right},
-     * {@code control_right_1} và {@code control_right_2}.
-     * Animation chỉ được cập nhật khi Bomber đang ở các vị trí pixel chia hết cho 8 (x % 8 == 0).
-     *
-     * @param animal Đối tượng Animal (Bomber) cần cập nhật animation.
-     */
-    public static void right_step(Animal animal) {
+    public static void right_step(Animal animal) {      //Show the animation of all mob that go right
         if (animal instanceof Bomber && animal.getX() % 8 == 0) {
             if (animal.getSwap() == 1) {
                 animal.setImg(Sprite.control_right.getFxImage());
@@ -370,6 +331,7 @@ public class Move {
                 animal.setSwap(1);
             }
         }
+
         if (animal instanceof Ballom && animal.getY() % 8 == 0) {
             if (animal.getSwap() == 1) {
                 animal.setImg(Sprite.ballom_left_1.getFxImage());
@@ -397,6 +359,21 @@ public class Move {
                 animal.setSwap(4);
             } else {
                 animal.setImg(Sprite.oneal_left_2.getFxImage());
+                animal.setSwap(1);
+            }
+        }
+        if (animal instanceof Doll && animal.getY() % 8 == 0) {
+            if (animal.getSwap() == 1) {
+                animal.setImg(Sprite.doll_right_1.getFxImage());
+                animal.setSwap(2);
+            } else if (animal.getSwap() == 2) {
+                animal.setImg(Sprite.doll_right_2.getFxImage());
+                animal.setSwap(3);
+            } else if (animal.getSwap() == 3) {
+                animal.setImg(Sprite.doll_right_3.getFxImage());
+                animal.setSwap(4);
+            } else {
+                animal.setImg(Sprite.doll_right_2.getFxImage());
                 animal.setSwap(1);
             }
         }
