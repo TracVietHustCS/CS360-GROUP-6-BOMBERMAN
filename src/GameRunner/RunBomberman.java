@@ -103,7 +103,7 @@ public class RunBomberman extends Application {
         });
 
         stage.setScene(scene);
-        stage.setTitle("Bomberman by 404 NOT FOUND");
+        stage.setTitle("CS 360 course project");
         Image icon = new Image("images/image.png");
         stage.getIcons().add(icon);
         main_stage = stage;
