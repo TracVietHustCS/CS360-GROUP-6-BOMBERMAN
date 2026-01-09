@@ -26,9 +26,9 @@ import static Control.Menu.time_number;
 import static Control.Menu.updateMenu;
 import static Entity.block.Portal.is_portal;
 import static Features.SoundManager.updateSound;
-import static Levels.NextLevel.wait;
-import static Levels.NextLevel.waitToLevelUp;
-import static Levels.NextLevel.waiting_time;
+import static levels.NextLevel.wait;
+import static levels.NextLevel.waitToLevelUp;
+import static levels.NextLevel.waiting_time;
 
 public class RunBomberman extends Application {
     /**
