@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import static GameRunner.RunBomberman.player;
-import static Levels.NextLevel.wait;
+import static levels.NextLevel.wait;
 
 public class SoundManager extends JFrame{
     public static Clip title_screen;
