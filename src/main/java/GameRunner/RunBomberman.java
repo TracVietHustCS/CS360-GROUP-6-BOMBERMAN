@@ -64,7 +64,7 @@ public class RunBomberman extends Application {
         canvas = new Canvas(Sprite.SCALED_SIZE * WIDTH, Sprite.SCALED_SIZE * HEIGHT);
         canvas.setTranslateY(32);
         gc = canvas.getGraphicsContext2D();
-        Image author = new Image("images/author.png");
+        Image author = new Image("/images/author.png");
         author_view = new ImageView(author);
         author_view.setX(-400);
         author_view.setY(-208);
@@ -104,7 +104,7 @@ public class RunBomberman extends Application {
 
         stage.setScene(scene);
         stage.setTitle("CS 360 course project");
-        Image icon = new Image("images/image.png");
+        Image icon = new Image("/images/image.png");
         stage.getIcons().add(icon);
         main_stage = stage;
         main_stage.show();
