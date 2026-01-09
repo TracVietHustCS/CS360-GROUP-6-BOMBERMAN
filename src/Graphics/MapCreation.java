@@ -26,9 +26,8 @@ import static GameRunner.RunBomberman.width;
 public class MapCreation {
     // Constructor MapCreation with parameter "level" in string data type.
     public MapCreation(String level) {
-        System.out.println(System.getProperty("user.dir"));
-        final File fileName = new File(level);                      // Create object fileName from class File in File library imported.
-        try (FileReader inputFile = new FileReader(fileName)) {     // Try to create new object from class FileReader.
+        InputStream is = MapCreation.class.getResourceAsStream(levelPath);   // Load map from resources
+
             Scanner ip = new Scanner(inputFile);                    // Create object ip from class Scanner.
             String line = ip.nextLine();                            // Input variable line in string data type.
 
@@ -39,7 +38,7 @@ public class MapCreation {
             height = Integer.parseInt(tokens.nextToken());
             width = Integer.parseInt(tokens.nextToken());
 
-            while (ip.hasNextLine()) {
+
                 id_objects = new int[width][height];                 // Create new object id_object from main file.
                 list_kill = new int[width][height];                  // Create new object lít_kill from main file.   Main file: RunBomberman.java
                 for (int i = 0; i < height; ++i) {
@@ -76,9 +75,13 @@ public class MapCreation {
                         block.add(entity);              //
                     }
                 }
-            }
-        } catch (IOException e) {                       // Catch exception
-            e.printStackTrace();                        // printStackTrace(): Help to understand where the problem is actually happening.
-        }
+            
+         ip.close();
+
+        System.out.println("Map loaded: " + levelPath);
+        System.out.println("width=" + width + ", height=" + height);
+        //Explicit close (even though Scanner on InputStream is GC-safe)
+        //
+        //Useful debug output
     }
 }
