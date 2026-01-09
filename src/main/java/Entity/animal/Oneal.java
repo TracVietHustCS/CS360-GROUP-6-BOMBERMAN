@@ -6,10 +6,11 @@ import javafx.scene.image.Image;
 
 import static GameRunner.RunBomberman.enemy;
 import static GameRunner.RunBomberman.player;
+import static GameRunner.RunBomberman.pendingRemoveEnemy;
 
 public class Oneal extends Animal {
-    private static int swap_kill = 1;
-    private static int count_kill = 0;
+    private int swap_kill = 1;
+    private int count_kill = 0;
 
     
     public Oneal(int x, int y, Image img) {
@@ -18,7 +19,7 @@ public class Oneal extends Animal {
 
 
     private void killOneal(Animal animal) {
-        if (count_kill % 16 == 0) {
+        if (count_kill % 16 != 0) return;
             if (swap_kill == 1) {
                 animal.setImg(Sprite.oneal_dead.getFxImage());
                 swap_kill = 2;
@@ -28,19 +29,18 @@ public class Oneal extends Animal {
                 swap_kill = 3;
             } 
             else {
-                animal.setLife(false);
-                enemy.remove(animal);
+                animal.setRemoved(true);
+                pendingRemovedEnemy.add(animal);
                 swap_kill = 1;
             }
-        }
     }
 
     @Override
     public void update() {
         count_kill++;
-        for (Animal animal : enemy) {
-            if (animal instanceof Oneal && !animal.life)
-                killOneal(animal);
+        if (!life) {
+                killOneal(this);
+                return;
         }
 
         if (this.y % 16 == 0 && this.x % 16 == 0) {
@@ -59,3 +59,4 @@ public class Oneal extends Animal {
         }
     }
 }
+
