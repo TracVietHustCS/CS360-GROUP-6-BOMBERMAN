@@ -37,7 +37,7 @@ public class Level1 {
 
         //load authorView screen
         player.setImg(Sprite.control_right_2.getFxImage());
-        Image transparent = new Image("images/transparent.png");
+        Image transparent = new Image("/images/transparent.png");
         author_view.setImage(transparent);
 
         Animal enemy1= new Ballom(3,3,Sprite.ballom_left_1.getFxImage());
