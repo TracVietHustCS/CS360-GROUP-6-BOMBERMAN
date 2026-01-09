@@ -1,4 +1,4 @@
-package Levels;
+package levels;
 
 import javafx.scene.image.Image;
 
