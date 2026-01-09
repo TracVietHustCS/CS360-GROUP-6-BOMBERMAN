@@ -1,7 +1,7 @@
 package Control;
 
 import GameRunner.RunBomberman;
-import Levels.Level1;
+import levels.Level1;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
