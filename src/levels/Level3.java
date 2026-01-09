@@ -1,4 +1,4 @@
-package Levels;
+package levels;
 
 import Entity.animal.Animal;
 import Entity.animal.Ballom;
@@ -22,7 +22,7 @@ public class Level3 {
         enemy.clear();
         block.clear();
         swap_kill = 1;
-        new MapCreation("resources/levels/Level3.txt");
+        new MapCreation("/levels/Level3.txt");
         player.setLife(true);
         player.setX(32);
         player.setY(32);
