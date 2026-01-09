@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 
 import static GameRunner.RunBomberman.enemy;
 import static GameRunner.RunBomberman.width;
+import static GameRunner.RunBomberman.pendingRemoveEnemy;
 
 public class Kondoria extends Animal {
 
@@ -61,4 +62,5 @@ public class Kondoria extends Animal {
         }
     }
 }
+
 
