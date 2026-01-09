@@ -44,6 +44,7 @@ public class RunBomberman extends Application {
 
     public static final List<Entity> block = new ArrayList<>();     // Contains fixed entities
     public static List<Animal> enemy = new ArrayList<>();           // Contains enemy entities
+    public static final List<Animal> pendingRemoveEnemy = new ArrayList<>(); 
     public static int[][] id_objects;
     public static int[][] list_kill;
     public static Animal player;
@@ -148,6 +149,8 @@ public class RunBomberman extends Application {
                 a.setCountToRun(0);
             }
         }
+        enemy.removeAll(pendingRemoveEnemy);
+        pendingRemoveEnemy.clear();
 
         if (enemy.size() == 0 && !is_portal && ! wait) {
             Entity portal = new Portal(width - 2, height - 2, Sprite.portal.getFxImage());
