@@ -1,4 +1,4 @@
-package Levels;
+package levels;
 
 import Graphics.MapCreation;
 import Graphics.Sprite;
@@ -24,7 +24,7 @@ public class Level1 {
         block.clear();
         swap_kill = 1;
         power_bomb = 0;
-        new MapCreation("resources/levels/Level1.txt");
+        new MapCreation("/levels/Level1.txt");
         player.setLife(true);
         player.setX(32);
         player.setY(32);
