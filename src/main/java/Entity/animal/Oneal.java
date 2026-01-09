@@ -19,7 +19,7 @@ public class Oneal extends Animal {
 
 
     private void killOneal(Animal animal) {
-        if (count_kill % 16 != 0) return;
+        if (count_kill % 16 == 0) {
             if (swap_kill == 1) {
                 animal.setImg(Sprite.oneal_dead.getFxImage());
                 swap_kill = 2;
@@ -29,14 +29,16 @@ public class Oneal extends Animal {
                 swap_kill = 3;
             } 
             else {
-                animal.setRemoved(true);
-                pendingRemovedEnemy.add(animal);
+                animal.setLife(false);
+                pendingRemoveEnemy.add(animal);
                 swap_kill = 1;
             }
+        }
     }
 
     @Override
     public void update() {
+        super.update();
         count_kill++;
         if (!life) {
                 killOneal(this);
@@ -59,4 +61,5 @@ public class Oneal extends Animal {
         }
     }
 }
+
 
