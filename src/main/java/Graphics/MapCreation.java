@@ -26,9 +26,9 @@ import static GameRunner.RunBomberman.width;
 public class MapCreation {
     // Constructor MapCreation with parameter "level" in string data type.
     public MapCreation(String level) {
-        InputStream is = MapCreation.class.getResourceAsStream(levelPath);   // Load map from resources
+        InputStream is = MapCreation.class.getResourceAsStream(level);   // Load map from resources
 
-            Scanner ip = new Scanner(inputFile);                    // Create object ip from class Scanner.
+            Scanner ip = new Scanner(is);                    // Create object ip from class Scanner.
             String line = ip.nextLine();                            // Input variable line in string data type.
 
             StringTokenizer tokens = new StringTokenizer(line);     // Create object tokens from class StringTokenizer in library imported.
@@ -78,7 +78,7 @@ public class MapCreation {
             
          ip.close();
 
-        System.out.println("Map loaded: " + levelPath);
+        System.out.println("Map loaded: " + level);
         System.out.println("width=" + width + ", height=" + height);
         //Explicit close (even though Scanner on InputStream is GC-safe)
         //
