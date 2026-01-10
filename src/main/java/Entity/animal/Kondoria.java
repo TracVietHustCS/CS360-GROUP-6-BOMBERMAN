@@ -6,12 +6,13 @@ import javafx.scene.image.Image;
 
 import static GameRunner.RunBomberman.enemy;
 import static GameRunner.RunBomberman.width;
+import static GameRunner.RunBomberman.pendingRemoveEnemy;
 
 public class Kondoria extends Animal {
 
-    private static int swap_kill = 1;
-    private static int count_kill = 0;
-    private static boolean direction;
+    private int swap_kill = 1;
+    private int count_kill = 0;
+    private boolean direction;
 
     public Kondoria(int x, int y, Image img) {
         super(x, y, img);
@@ -26,7 +27,7 @@ public class Kondoria extends Animal {
     }
 
     private void killKondoria(Animal animal) {
-        if (count_kill % 16 == 0) {
+        if (++count_kill % 16 != 0) return;
             if (swap_kill == 1) {
                 animal.setImg(Sprite.kondoria_dead.getFxImage());
                 swap_kill = 2;
@@ -36,19 +37,18 @@ public class Kondoria extends Animal {
                 swap_kill = 3;
             } 
             else {
-                animal.setLife(false);
-                enemy.remove(animal);
-                swap_kill = 1;
+                life = false;
+                setRemoved(true);
+                pendingRemoveEnemy.add(this);
             }
         }
-    }
 
     @Override
     public void update() {
-        count_kill++;
-        for (Animal animal : enemy) {
-            if (animal instanceof Kondoria && !animal.life)
-                killKondoria(animal);
+        super.update();
+        if (!life) {
+            killKondoria(this);
+            return;
         }
 
         if (this.y % 16 == 0 && this.x % 16 == 0) {
@@ -62,3 +62,5 @@ public class Kondoria extends Animal {
         }
     }
 }
+
+

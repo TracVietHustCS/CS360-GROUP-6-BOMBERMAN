@@ -9,7 +9,7 @@ public abstract class Animal extends Entity {
     protected String direction;   // direction of player
     protected int count;          // count step of a jump
     protected int countToRun;   // run after count frame
-    protected boolean life;       // life of enemy
+    protected boolean life = true;       // life of enemy
 
     
     public Animal(int x_unit, int y_unit, Image img) {         
@@ -75,6 +75,11 @@ public abstract class Animal extends Entity {
 
     @Override
     public void update() {
+        int cx = (x + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
+        int cy = (y + Sprite.SCALED_SIZE / 2) / Sprite.SCALED_SIZE;
 
+        if (life && list_kill[cx][cy] == 4) {
+            life = false;
+        }
     }
 }
