@@ -1,7 +1,10 @@
 package Entity.animal;
 
 import Entity.Entity;
+import Graphics.Sprite;
 import javafx.scene.image.Image;
+
+import static GameRunner.RunBomberman.list_kill;
 
 public abstract class Animal extends Entity {
     protected int isMove;        // jump with pixel
@@ -10,9 +13,10 @@ public abstract class Animal extends Entity {
     protected int count;          // count step of a jump
     protected int countToRun;   // run after count frame
     protected boolean life = true;       // life of enemy
+    protected boolean removed = false;   // removed status
 
-    
-    public Animal(int x_unit, int y_unit, Image img) {         
+
+    public Animal(int x_unit, int y_unit, Image img) {
         super(x_unit, y_unit, img);
     }
 
@@ -27,6 +31,14 @@ public abstract class Animal extends Entity {
 
     public void setLife(boolean life) {
         this.life = life;
+    }
+
+    public boolean isRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(boolean removed) {
+        this.removed = removed;
     }
 
     public int getIsMove() {
