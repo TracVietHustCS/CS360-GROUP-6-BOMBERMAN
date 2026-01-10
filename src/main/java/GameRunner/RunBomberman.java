@@ -174,7 +174,7 @@ public class RunBomberman extends Application {
         long now = System.currentTimeMillis();
         if (now - last_time > 1000) {
             last_time = System.currentTimeMillis();
-            main_stage.setTitle("Bomberman by 404 NOT FOUND | " + frame + " frame");
+            main_stage.setTitle("Troy CS360 Project | " + frame + " frame");
             frame = 0;
 
             time.setText("Time: " + time_number);
