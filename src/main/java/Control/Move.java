@@ -47,13 +47,13 @@ public class Move {
 
     public static void down(Animal animal) {        //Control all mob to go down
         if (animal.getY() % 32 == 0 && animal.getX() % 32 == 0) {
-            if (animal instanceof Bomber && Blocked.block_down(animal)) {
+            if (animal instanceof Bomber && Blocked.isNotblockDown(animal)) {
                 animal.setDirection("down");
                 animal.setCount(4 / speed);
                 checkRun(animal);
             }
             if ((animal instanceof Ballom || animal instanceof Oneal || animal instanceof Doll)
-                    && Blocked.block_down(animal)) {
+                    && Blocked.isNotblockDown(animal)) {
                 animal.setDirection("down");
                 animal.setCount(8);
                 checkRun(animal);
@@ -126,13 +126,13 @@ public class Move {
 
     public static void up(Animal animal) {      //Control all mob to go up
         if (animal.getY() % 32 == 0 && animal.getX() % 32 == 0) {
-            if (animal instanceof Bomber && Blocked.block_up(animal)) {
+            if (animal instanceof Bomber && Blocked.isNotblockUp(animal)) {
                 animal.setDirection("up");
                 animal.setCount(4 / speed);
                 checkRun(animal);
             }
             if ((animal instanceof Ballom || animal instanceof Oneal || animal instanceof Doll)
-                    && Blocked.block_up(animal)) {
+                    && Blocked.isNotblockUp(animal)) {
                 animal.setDirection("up");
                 animal.setCount(8);
                 checkRun(animal);
@@ -205,14 +205,14 @@ public class Move {
 
     public static void left(Animal animal) {        //Control all mob to go left
         if (animal.getX() % 32 == 0 && animal.getY() % 32 == 0) {
-            if (animal instanceof Bomber && Blocked.block_left(animal)) {
+            if (animal instanceof Bomber && Blocked.isNotblockLeft(animal)) {
                 animal.setDirection("left");
                 animal.setCount(4 / speed);
                 checkRun(animal);
             }
             if ((animal instanceof Ballom || animal instanceof Oneal
                     || animal instanceof Doll || animal instanceof Kondoria)
-                    && Blocked.block_left(animal)) {
+                    && Blocked.isNotblockLeft(animal)) {
                 animal.setDirection("left");
                 animal.setCount(8);
                 checkRun(animal);
@@ -300,14 +300,14 @@ public class Move {
 
     public static void right(Animal animal) {       //Control all mob to go right
         if (animal.getX() % 32 == 0 && animal.getY() % 32 == 0) {
-            if (animal instanceof Bomber && Blocked.block_right(animal)) {
+            if (animal instanceof Bomber && Blocked.isNotblockRight(animal)) {
                 animal.setDirection("right");
                 animal.setCount(4 / speed);
                 checkRun(animal);
             }
             if ((animal instanceof Ballom || animal instanceof Oneal
                     || animal instanceof Doll || animal instanceof Kondoria)
-                    && Blocked.block_right(animal)) {
+                    && Blocked.isNotblockRight(animal)) {
                 animal.setDirection("right");
                 animal.setCount(8);
                 checkRun(animal);
