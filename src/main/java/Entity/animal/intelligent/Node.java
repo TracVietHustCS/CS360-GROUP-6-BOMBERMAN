@@ -6,7 +6,7 @@ public class Node {
     private int f;
     private int row;
     private int col;
-    private boolean is_block;   // This variable to check if the object is blocks.
+    private boolean is_block; // This variable to check if the object is blocks.
     private Node parent;
 
     // Constructor to create object Node.
@@ -86,20 +86,21 @@ public class Node {
         this.parent = parent;
     }
 
-    // Method calculateHeuristic() with parameter final_node in Node class to apply AI in Doll enemy.
+    // Method calculateHeuristic() with parameter final_node in Node class to apply
+    // AI in Doll enemy.
     public void calculateHeuristic(Node final_node) {
         this.h = Math.abs(final_node.getRow() - getRow()) + Math.abs(final_node.getCol() - getCol());
     }
 
     public void setNodeData(Node current_node) {
-        int g_cost = current_node.getG();
+        int g_cost = current_node.getG() + 1;
         setParent(current_node);
         setG(g_cost);
         calculateFinalCost();
     }
 
     public boolean checkBetterPath(Node current_node) {
-        int g_cost = current_node.getG();
+        int g_cost = current_node.getG() + 1;
         if (g_cost < getG()) {
             setNodeData(current_node);
             return true;
@@ -112,7 +113,8 @@ public class Node {
         setF(final_cost);
     }
 
-    // Override "equals" method with obj parameter in Object class to determine the feature in game.
+    // Override "equals" method with obj parameter in Object class to determine the
+    // feature in game.
     @Override
     public boolean equals(Object obj) {
         Node other = (Node) obj;
