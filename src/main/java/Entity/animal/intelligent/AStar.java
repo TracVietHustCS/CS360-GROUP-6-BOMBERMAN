@@ -142,12 +142,6 @@ public class AStar {
         int col = current_node.getCol();
         int upper_row = row - 1;
         if (upper_row >= 0) {
-            if (col - 1 >= 0) {
-                checkNode(current_node, col - 1, upper_row);
-            }
-            if (col + 1 < getSearch_area()[0].length) {
-                checkNode(current_node, col + 1, upper_row);
-            }
             checkNode(current_node, col, upper_row);
         }
     }
@@ -157,12 +151,6 @@ public class AStar {
         int col = current_node.getCol();
         int lower_row = row + 1;
         if (lower_row < getSearch_area().length) {
-            if (col - 1 >= 0) {
-                checkNode(current_node, col - 1, lower_row);
-            }
-            if (col + 1 < getSearch_area()[0].length) {
-                checkNode(current_node, col + 1, lower_row);
-            }
             checkNode(current_node, col, lower_row);
         }
     }
