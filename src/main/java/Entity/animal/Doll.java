@@ -14,7 +14,7 @@ public class Doll extends Animal{
     private static int swap_kill = 1;
     private static int count_kill = 0;
 
-    // Biến để tính việc tính lại A*
+    // Variables that decides should A* be re-calculated
     private int pathCooldown = 0;
     private List<Node> currentPath = null;
     private int lastPlayerTileX = -1;
@@ -73,7 +73,7 @@ public class Doll extends Animal{
         lastPlayerTileY = player.getY() / 32;
 
         // Reset cooldown to recompute after N tile movements
-        pathCooldown = 5; // Adjust this value: higher = less frequent recomputation
+        pathCooldown = 32; // Adjust this value: higher = less frequent recomputation
     }
     private boolean shouldRecomputePath() {
         // Recompute if no path exists
