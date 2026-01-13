@@ -12,7 +12,7 @@ public class Sprite {
     private static final int TRANSPARENT_COLOR = -65281;        // Declare transparent color
     public final int SIZE;
     private int x, y;
-    public int[] pixels;
+    private int[] pixels;
     protected int real_width;
     protected int real_height;
     private SpriteSheet sheet;
